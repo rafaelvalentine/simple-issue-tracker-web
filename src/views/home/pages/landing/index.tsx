@@ -22,8 +22,11 @@ function Index() {
     end_date: moment().endOf("week"),
   });
 
-  const onChange = (e) => {
-    setSprintInfo((sprintInfo) => ({ ...sprintInfo, title: e.target.value }));
+  const onChange = (e: any) => {
+    setSprintInfo((sprintInfo: any) => ({
+      ...sprintInfo,
+      title: e.target.value,
+    }));
   };
 
   const onChangeDateRanger: RangePickerProps["onChange"] = (
@@ -45,7 +48,7 @@ function Index() {
   };
 
   const handleOk = () => {
-    dispatch(createSprint(sprintInfo));
+    dispatch(createSprint(sprintInfo) as any);
     handleCancel();
   };
 

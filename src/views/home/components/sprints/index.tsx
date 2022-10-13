@@ -131,7 +131,7 @@ const Sprint: React.FC = () => {
           updateSprint({
             ...item,
             ...row,
-          })
+          }) as any
         );
         setEditingKey("");
       } else {

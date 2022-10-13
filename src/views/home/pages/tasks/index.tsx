@@ -20,12 +20,15 @@ function Index() {
   });
   const sprints = useSelector(getAllSprints);
 
-  const onChange = (e) => {
-    setTaskInfo((taskInfo) => ({ ...taskInfo, [e.target.id]: e.target.value }));
+  const onChange = (e: any) => {
+    setTaskInfo((taskInfo: any) => ({
+      ...taskInfo,
+      [e.target.id]: e.target.value,
+    }));
   };
 
-  const handleSelectOnChange = (value) => {
-    setTaskInfo((taskInfo) => ({ ...taskInfo, sprint_id: value }));
+  const handleSelectOnChange = (value: string) => {
+    setTaskInfo((taskInfo: any) => ({ ...taskInfo, sprint_id: value }));
   };
   const { Option } = Select;
 
@@ -48,7 +51,7 @@ function Index() {
   };
 
   const handleOk = () => {
-    dispatch(createTask(taskInfo));
+    dispatch(createTask(taskInfo) as any);
     handleCancel();
   };
 
@@ -137,7 +140,7 @@ function Index() {
           >
             {/* {children} */}
             {sprintData.length &&
-              sprintData.map((item) => {
+              sprintData.map((item: any) => {
                 if (item.id && item.title) {
                   return <Option key={item.id}>{item.title}</Option>;
                 }

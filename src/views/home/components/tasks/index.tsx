@@ -135,10 +135,6 @@ const Task: React.FC = () => {
     setEditingKey("");
   };
 
-  const showModal = () => {
-    setOpen(true);
-  };
-
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as Item;
@@ -160,7 +156,7 @@ const Task: React.FC = () => {
           updateTask({
             ...item,
             ...row,
-          })
+          }) as any
         );
         setEditingKey("");
       } else {
@@ -197,7 +193,7 @@ const Task: React.FC = () => {
       //   <div>{format(parseISO(text), "dd/MM/yyyy")}</div>
       // ),
       //   editable: true,
-      render: (_, { sprint }: Item) => <div>{sprint.id}</div>,
+      render: (_: any, { sprint }: Item) => <div>{sprint.id}</div>,
     },
     // {
     //   title: "completed",
