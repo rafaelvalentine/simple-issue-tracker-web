@@ -4,7 +4,7 @@ import { useState } from "react";
 
 type ReturnType = {
   open: boolean;
-  placement?: string;
+  placement: any;
   showDrawer: () => void;
   onChange: (e: RadioChangeEvent) => void;
   onClose: () => void;
