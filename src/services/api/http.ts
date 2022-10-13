@@ -8,7 +8,9 @@ import axios from "axios";
  */
 export default (() => {
   const baseApi = () => {
-    let baseURL = import.meta.env.VITE_API_URL;
+    let baseURL =
+      import.meta.env.VITE_API_URL ||
+      "https://issue-tracker-assessment-web.herokuapp.com/api";
     let token: string | null = "";
     if (sessionStorage.getItem("token")) {
       token = sessionStorage.getItem("token");
@@ -16,7 +18,9 @@ export default (() => {
 
     if (import.meta.env.PROD && import.meta.env.MODE === "production") {
       // import.meta.env.VITE_XX
-      baseURL = import.meta.env.VITE_API_URL;
+      baseURL =
+        import.meta.env.VITE_API_URL ||
+        "https://issue-tracker-assessment-web.herokuapp.com/api";
     }
     return axios.create({
       baseURL,
