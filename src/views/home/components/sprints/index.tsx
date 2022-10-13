@@ -110,10 +110,6 @@ const Sprint: React.FC = () => {
     setEditingKey("");
   };
 
-  const showModal = () => {
-    setOpen(true);
-  };
-
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as Item;
