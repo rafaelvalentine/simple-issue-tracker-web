@@ -1,0 +1,40 @@
+{
+    "name": "url_shortener_accessment_client",
+    "private": true,
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "@reduxjs/toolkit": "^1.8.3",
+        "antd": "^4.23.5",
+        "axios": "^0.27.2",
+        "date-fns": "^2.29.3",
+        "express": "^4.16.3",
+        "formik": "^2.2.9",
+        "moment": "^2.29.4",
+        "react": "^18.0.0",
+        "react-copy-to-clipboard": "^5.1.0",
+        "react-dom": "^18.0.0",
+        "react-icons": "^4.4.0",
+        "react-redux": "^8.0.2",
+        "react-router-dom": "^6.3.0",
+        "redux": "^4.2.0",
+        "yup": "^0.32.11"
+    },
+    "devDependencies": {
+        "@types/node": "^18.0.3",
+        "@types/react": "^18.0.0",
+        "@types/react-copy-to-clipboard": "^5.0.3",
+        "@types/react-dom": "^18.0.0",
+        "@vitejs/plugin-react": "^1.3.0",
+        "autoprefixer": "^10.4.7",
+        "postcss": "^8.4.14",
+        "tailwindcss": "^3.1.5",
+        "typescript": "^4.6.3",
+        "vite": "^2.9.9"
+    }
+}
