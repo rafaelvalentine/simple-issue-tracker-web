@@ -76,9 +76,10 @@ const SprintDropdown = ({
       {/* </Form.Item> */}
 
       {resultSprints && resultSprints.length > 0 && (
-        <div className="absolute top-12 left-0">
+        <div className="absolute top-12 left-0 bg-white w-[200px] p-3">
           {resultSprints.map((sp: any) => (
             <p
+              className="w-full hover:text-white hover:bg-gray-400 cursor-pointer p-3"
               onClick={() => {
                 setSprint(sp.title);
                 setSprintId(sp.id);
