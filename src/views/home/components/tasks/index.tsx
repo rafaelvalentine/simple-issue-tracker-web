@@ -33,18 +33,23 @@ interface Item {
 const SprintDropdown = ({
   record,
   dataIndex,
-  value = "",
+  value = {},
   onChange,
 }: {
   record: Item;
   dataIndex: string;
+  value?: {
+    sprint?: string;
+    sprintId?: string;
+  };
+  onChange?: (value: any) => void;
 }) => {
   const sprints = useSelector(getAllSprints);
   const [sprint, setSprint] = useState(record.sprint.title);
   const [sprintId, setSprintId] = useState("");
 
   const resultSprints = useMemo(() => {
-    return sprints.filter((s) => {
+    return sprints.filter((s: Item) => {
       const reg = new RegExp(`${sprint}`, "g");
       if (reg.test(s.title)) return s;
     });
@@ -65,14 +70,14 @@ const SprintDropdown = ({
     <div className="relative">
       {/* <Form.Item name={dataIndex} noStyle> */}
       <Input
-        value={value.title || sprint}
+        value={value.sprint || sprint}
         onChange={(e) => setSprint(e.target.value)}
       />
       {/* </Form.Item> */}
 
       {resultSprints && resultSprints.length > 0 && (
         <div className="absolute top-12 left-0">
-          {resultSprints.map((sp) => (
+          {resultSprints.map((sp: any) => (
             <p
               onClick={() => {
                 setSprint(sp.title);
@@ -160,7 +165,6 @@ const Task: React.FC = () => {
 
   const [form] = Form.useForm();
   const [data, setData] = useState<Item[]>([]);
-  const [sprintId, setSprintId] = useState(null);
   const [status, setStatus] = useState(null);
   const [editingKey, setEditingKey] = useState("");
 
