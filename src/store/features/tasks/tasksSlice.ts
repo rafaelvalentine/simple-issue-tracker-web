@@ -37,6 +37,7 @@ export const updateTask = createAsyncThunk(
   "tasks/updateTask",
   async (updateTask: any) => {
     const { id } = updateTask;
+
     try {
       const response = await HTTP.baseApi().patch(`/v1/tasks/${id}`, {
         data: updateTask,

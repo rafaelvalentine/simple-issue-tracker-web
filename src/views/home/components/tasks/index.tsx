@@ -11,9 +11,14 @@ import {
 // import type { DatePickerProps } from "antd";
 // import { DatePicker, Space } from "antd";
 import { parseISO, format } from "date-fns";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllTasks, updateTask, getTasksStatus } from "../../../../store";
+import {
+  getAllTasks,
+  updateTask,
+  getTasksStatus,
+  getAllSprints,
+} from "../../../../store";
 
 interface Item {
   key: string;
@@ -24,6 +29,65 @@ interface Item {
   is_active?: boolean;
   sprint?: any;
 }
+
+const SprintDropdown = ({
+  record,
+  dataIndex,
+  value = "",
+  onChange,
+}: {
+  record: Item;
+  dataIndex: string;
+}) => {
+  const sprints = useSelector(getAllSprints);
+  const [sprint, setSprint] = useState(record.sprint.title);
+  const [sprintId, setSprintId] = useState("");
+
+  const resultSprints = useMemo(() => {
+    return sprints.filter((s) => {
+      const reg = new RegExp(`${sprint}`, "g");
+      if (reg.test(s.title)) return s;
+    });
+  }, [sprint]);
+
+  const triggerChange = (changedValue: {
+    sprint?: string;
+    sprintId?: string;
+  }) => {
+    onChange?.({ ...changedValue });
+  };
+
+  useEffect(() => {
+    triggerChange({ sprintId });
+  }, [sprintId]);
+
+  return (
+    <div className="relative">
+      {/* <Form.Item name={dataIndex} noStyle> */}
+      <Input
+        value={value.title || sprint}
+        onChange={(e) => setSprint(e.target.value)}
+      />
+      {/* </Form.Item> */}
+
+      {resultSprints && resultSprints.length > 0 && (
+        <div className="absolute top-12 left-0">
+          {resultSprints.map((sp) => (
+            <p
+              onClick={() => {
+                setSprint(sp.title);
+                setSprintId(sp.id);
+              }}
+            >
+              {" "}
+              {sp?.title}{" "}
+            </p>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const originData: Item[] = [];
 // for (let i = 0; i < 1; i++) {
@@ -54,22 +118,17 @@ const EditableCell: React.FC<EditableCellProps> = ({
   children,
   ...restProps
 }) => {
-  if (inputType === "number") {
-  }
-
   let inputNode = <Input />;
 
   if (inputType === "number") {
     inputNode = <InputNumber />;
   }
   if (inputType === "checkbox") {
-    inputNode = (
-      <Checkbox
-        onChange={(e) => {
-          console.log("e.target.value: ", e.target.value);
-        }}
-      />
-    );
+    inputNode = <Checkbox />;
+  }
+
+  if (dataIndex === "sprint") {
+    inputNode = <SprintDropdown dataIndex={dataIndex} record={record} />;
   }
 
   return (
@@ -101,6 +160,7 @@ const Task: React.FC = () => {
 
   const [form] = Form.useForm();
   const [data, setData] = useState<Item[]>([]);
+  const [sprintId, setSprintId] = useState(null);
   const [status, setStatus] = useState(null);
   const [editingKey, setEditingKey] = useState("");
 
@@ -127,6 +187,7 @@ const Task: React.FC = () => {
       description: "",
       is_completed: "",
       ...record,
+      sprint: record.sprint.title,
     });
     setEditingKey(record.key);
   };
@@ -139,8 +200,6 @@ const Task: React.FC = () => {
     try {
       const row = (await form.validateFields()) as Item;
 
-      // console.log("row: ", row);
-
       const newData: Item[] = [...data];
       const index = newData.findIndex((item: Item) => key === item.key);
       if (index > -1) {
@@ -151,11 +210,11 @@ const Task: React.FC = () => {
         // });
 
         // setData(newData);
-
         dispatch(
           updateTask({
             ...item,
             ...row,
+            sprint_id: row?.sprint.sprintId,
           }) as any
         );
         setEditingKey("");
@@ -192,8 +251,8 @@ const Task: React.FC = () => {
       // render: (text: string) => (
       //   <div>{format(parseISO(text), "dd/MM/yyyy")}</div>
       // ),
-      //   editable: true,
-      render: (_: any, { sprint }: Item) => <div>{sprint.id}</div>,
+      editable: true,
+      render: (_: any, { sprint }: Item) => <div>{sprint.title}</div>,
     },
     // {
     //   title: "completed",
